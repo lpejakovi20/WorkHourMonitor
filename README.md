@@ -29,7 +29,7 @@ F09 | Generiranje izvještaja radnih sati | Korisnik s ulogom voditelja imat će
 
 
 ## Tehnologije i oprema
-
+Android studio...
 
 ## Baza podataka i web server
 Trebamo bazu podataka i pristup serveru za PHP skripte.
