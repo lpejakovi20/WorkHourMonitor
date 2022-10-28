@@ -17,10 +17,10 @@ Pristup aplikaciji će imati radnici tvrtke i njihovi voditelji(šef, menadžer,
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Login |Korisnicima će se omogućiti prijava u sustav. | Lovro Pejaković
-F02 | Registracija | Korisnicima će se omogućiti kreiranje profila prilikom prvog korištenja aplikacije.|Nikola Parag
+F01 | Login |Korisnicima će se omogućiti prijava u sustav. Prilikom prijave će moći izabrati između dvije uloge voditelja i radnika. Svaki zaposleni će se moći prijaviti samo u ulogu za koju ima korisničke podatke | Lovro Pejaković
+F02 | Registracija |Da bi pristupili registraciji, korisnici moraju imat posebnu šifru koju imaju samo ovlašteni radnici u firmi. Korisnicima će se omogućiti kreiranje profila prilikom prvog korištenja aplikacije. Prilikom registracije korisnici mogu izabrati svoju ulogu u aplikaciji.|Nikola Parag
 F03 | Zaboravljena lozinka | Korisnici će imati mogućnost promjene lozinke ukoliko su je zaboravili. | Matej Ritoša
-F04 | Skeniranje QR koda za početak radnog vremena | Korisnici će imati mogućnost skeniranja QR koda za početak mjerenja radnog vremena. | Nikola Parag
+F04 | Skeniranje QR koda za početak radnog vremena | Korisnici će imati mogućnost skeniranja QR koda za početak mjerenja radnog vremena. Skeniranjem istog QR koda timer koji mjeri radno vrijeme će se zaustaviti i zabilježiti vrijeme rada u bazu podataka | Nikola Parag
 F05 | Raspored rada | Korisnici će imati mogućnost prikaza vlastitog rasporeda radnih sati to jest obveza. |Matej Ritoša
 F06 | Statistika radnih sati | Korisnici će imati uvid u statistiku vlastitih provedenih radnih sati. | Lovro Pejaković
 F07 | Korisnički profil | Korisnici će imati mogućnost mjenjati opcije aplikacije| Nikola Parag
