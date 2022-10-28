@@ -18,13 +18,13 @@ Pristup aplikaciji će imati radnici tvrtke i njihovi voditelji(šef, menadžer,
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
 F01 | Login |Korisnicima će se omogućiti prijava u sustav. Prilikom prijave će moći izabrati između dvije uloge voditelja i radnika. Svaki zaposleni će se moći prijaviti samo u ulogu za koju ima korisničke podatke | Lovro Pejaković
-F02 | Registracija |Da bi pristupili registraciji, korisnici moraju imat posebnu šifru koju imaju samo ovlašteni radnici u firmi. Korisnicima će se omogućiti kreiranje profila prilikom prvog korištenja aplikacije. Prilikom registracije korisnici mogu izabrati svoju ulogu u aplikaciji.|Nikola Parag
+F02 | Registracija |Da bi pristupili registraciji, korisnici moraju imat posebnu šifru koju imaju samo ovlašteni zaposlenici firme. Korisnicima će se omogućiti kreiranje profila prilikom prvog korištenja aplikacije. Prilikom registracije korisnici mogu izabrati svoju ulogu u aplikaciji.|Nikola Parag
 F03 | Zaboravljena lozinka | Korisnici će imati mogućnost promjene lozinke ukoliko su je zaboravili. | Matej Ritoša
 F04 | Skeniranje QR koda za početak radnog vremena | Korisnici će imati mogućnost skeniranja QR koda za početak mjerenja radnog vremena. Skeniranjem istog QR koda timer koji mjeri radno vrijeme će se zaustaviti i zabilježiti vrijeme rada u bazu podataka | Nikola Parag
-F05 | Raspored rada | Korisnici će imati mogućnost prikaza vlastitog rasporeda radnih sati to jest obveza. |Matej Ritoša
-F06 | Statistika radnih sati | Korisnici će imati uvid u statistiku vlastitih provedenih radnih sati. | Lovro Pejaković
-F07 | Korisnički profil | Korisnici će imati mogućnost mjenjati opcije aplikacije| Nikola Parag
-F08 | Daily Checklist| Korisnici će imati mogućnost kreiranja i uređivanja liste dnevnih obveza. | Lovro Pejaković
+F05 | Kreiranje plana rada | Zaposlenici sa ulogom voditelj će moći kreirati planove rada za svakog zaposlenika i dodavati događaje na rasporede rada svih zaposlenih| Nikola Parag
+F06 | Plan rada | Korisnici će imati mogućnost prikaza vlastitog rasporeda radnih sati to jest obveza. Prikazan će biti tjedni raspored sa svim aktivnostima u firmi.Svaki zaposleni će imati prikazan svoj dnevni plan i program rada |Matej Ritoša
+F07 | Statistika radnih sati | Korisnici će imati uvid u statistiku vlastitih odrađenih radnih sati. Moći će pregledati koliko su sati odradili po mjesecima. Isto tako će moći vidjeti koliko od tih odrađenih radnih sati su prekovremeni sati i koliko tih sati je odrađeno nedeljom/noćna smjena | Lovro Pejaković
+F08 | Daily Checklist| Korisnici će imati mogućnost kreiranja i uređivanja liste dnevnih obveza. Korisnici će sami moći kreirati za sebe stavke u checklisti. Moći će ih brisati, uređivati i označiti da su rješene. | Lovro Pejaković
 F09 | Generiranje izvještaja radnih sati | Korisnik s ulogom voditelja imat će mogućnost generiranja izvještaja o sveukupno provedenim radnim satima po zaposleniku te će taj generirani izvještaj moći poslati sebi na mail. |Matej Ritoša
 
 
