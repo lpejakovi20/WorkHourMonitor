@@ -14,12 +14,13 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/et_name"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617" />
+        app:layout_constraintVertical_bias="0.162" />
 
     <EditText
         android:id="@+id/et_name"
@@ -28,7 +29,7 @@
         android:layout_marginBottom="11dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Ime"
+        android:hint="@string/ime"
         app:layout_constraintBottom_toTopOf="@+id/et_surname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -40,7 +41,7 @@
         android:layout_marginBottom="12dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Prezime"
+        android:hint="Prezime"
         app:layout_constraintBottom_toTopOf="@+id/et_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -52,8 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="384dp"
         android:ems="10"
-        android:text="E-mail"
         android:inputType="textEmailAddress"
+        android:hint="E-mail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -66,10 +67,13 @@
         android:layout_marginBottom="13dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Korisničko ime"
+        android:hint="Korisničko ime"
         app:layout_constraintBottom_toTopOf="@+id/et_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/et_password"
@@ -78,7 +82,7 @@
         android:layout_marginBottom="208dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Lozinka"
+        android:hint="Lozinka"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
