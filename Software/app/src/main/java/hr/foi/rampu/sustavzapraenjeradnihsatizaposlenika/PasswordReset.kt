@@ -18,7 +18,7 @@ class PasswordReset : AppCompatActivity() {
 
     lateinit var email: EditText
     lateinit var resetPasswordButton: Button
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +31,13 @@ class PasswordReset : AppCompatActivity() {
         auth = Firebase.auth
 
         resetPasswordButton.setOnClickListener{
-            resetPassword()
+            validationInput()
+
         }
 
     }
 
-    fun resetPassword(){
+    fun validationInput(){
         var email_content: String = email.text.toString().trim()
 
         if(email_content.isEmpty()){
@@ -49,9 +50,13 @@ class PasswordReset : AppCompatActivity() {
             return
         }
 
-        auth.sendPasswordResetEmail(email_content).addOnCompleteListener{
-            Toast.makeText(baseContext,"Poslan vam je mail!",Toast.LENGTH_SHORT)
-                .show()
+        auth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener{ task->
+            if(task.isComplete){
+                Toast.makeText(baseContext,"Provijerite spam folder na vašem mailu.",Toast.LENGTH_LONG).show()
+            }
+            else{
+                Toast.makeText(baseContext,"Došlo je do pogreške, pokušajte ponovo.",Toast.LENGTH_LONG).show()
+            }
         }
 
     }
