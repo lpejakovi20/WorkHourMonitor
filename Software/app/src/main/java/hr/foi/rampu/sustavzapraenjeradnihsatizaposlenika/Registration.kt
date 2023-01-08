@@ -72,6 +72,19 @@ class Registration : AppCompatActivity() {
             return
         }
 
+        Database.buildInstance(baseContext)
+        if(Database.getInstance().getUsersDAO().getUserByEmail(email_content)!=null){
+            Toast.makeText(baseContext,"Korisnik s unesenim email-om već postoji!",Toast.LENGTH_LONG).show()
+        }
+        else {
+            UserData.data = email_content;
+            var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.User(0 ,name_content,surname_content,email_content,password_content)
+            Database.getInstance().getUsersDAO().insertUser(newUser)
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+
+        /*
         auth.createUserWithEmailAndPassword(email_content,password_content)
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
@@ -92,7 +105,7 @@ class Registration : AppCompatActivity() {
                     Toast.makeText(baseContext,"Pogreška kod registracije",Toast.LENGTH_LONG).show()
                 }
             }
-
+         */
 
     }
 }
