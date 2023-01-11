@@ -1,5 +1,6 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
@@ -24,6 +26,8 @@ class ToDoListFragment : Fragment() {
 
     lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var toDoListFragmentAdapter: ToDoListFragmentAdapter
+    lateinit var builder: AlertDialog.Builder
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +65,37 @@ class ToDoListFragment : Fragment() {
             }!!
 
         recyclerView.adapter = toDoListFragmentAdapter
+
+        btnAdd.setOnClickListener {
+            val sText = editText.text.toString().trim { it <= ' ' }
+            if (sText != "") {
+
+                var loggedUser = Database.getInstance().getUsersDAO().getUserByEmail(UserData.data.toString())
+                val data = Task(0,sText,loggedUser.id,false)
+                Database.getInstance().getTasksDAO().insertTask(data)
+
+                editText.setText("")
+
+                (dataList as MutableList<Task>?)?.clear()
+                Toast.makeText(activity, "Zadatak je uspješno dodan u listu!", Toast.LENGTH_LONG).show()
+
+                (dataList as MutableList<Task>?)?.addAll(Database.getInstance().getTasksDAO().getAllTasksOfUser(loggedUser.id))
+                toDoListFragmentAdapter.notifyDataSetChanged()
+            } else {
+                builder = AlertDialog.Builder(view.context)
+                builder.setMessage("Polje za unos naziva zadatka ne smije biti prazno!!")
+                    .setCancelable(false)
+                    .setPositiveButton(
+                        "Ok"
+                    ) { dialog, id -> dialog.cancel() }
+
+                val alert = builder.create()
+                alert.setTitle("Nevaljan unos")
+                alert.show()
+            }
+        }
+
+
 
         return view
     }
