@@ -25,4 +25,7 @@ interface TasksDAO {
 
     @Query("DELETE FROM tasks WHERE user_id = :user")
     fun deleteTasksOfUser(user: Int)
+
+    @Query("UPDATE tasks SET text =:sText WHERE ID = :sID")
+    fun update(sID: Int, sText: String?)
 }
