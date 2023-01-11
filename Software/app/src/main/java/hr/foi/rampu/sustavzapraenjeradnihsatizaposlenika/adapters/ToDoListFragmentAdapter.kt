@@ -1,6 +1,8 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater
@@ -15,6 +17,8 @@ class ToDoListFragmentAdapter(private val dataList: MutableList<Task>, private v
     RecyclerView.Adapter<ToDoListFragmentAdapter.ViewHolder>() {
 
     private var database: Database? = null
+    var builder: AlertDialog.Builder? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,6 +33,36 @@ class ToDoListFragmentAdapter(private val dataList: MutableList<Task>, private v
         database = Database.getInstance()
 
         holder.textView.text = data.getText()
+
+        holder.btnDelete.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                builder = AlertDialog.Builder(v.context)
+                builder!!.setMessage("Jeste li sigurni da želite obrisati odabrani zadatak?")
+                    .setCancelable(false)
+                    .setPositiveButton("Da", object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface, id: Int) {
+
+                            val d = dataList[holder.adapterPosition]
+
+                            Database.getInstance().getTasksDAO().removeTask(d)
+
+                            val position = holder.adapterPosition
+                            dataList.removeAt(position)
+                            notifyItemRemoved(position)
+                            notifyItemRangeChanged(position, dataList.size)
+                        }
+                    })
+                    .setNegativeButton("Ne", object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface, id: Int) {
+                            dialog.cancel()
+                        }
+                    })
+                val alert = builder!!.create()
+                alert.setTitle("Potvrda brisanja")
+                alert.show()
+            }
+        })
+
 
     }
 
