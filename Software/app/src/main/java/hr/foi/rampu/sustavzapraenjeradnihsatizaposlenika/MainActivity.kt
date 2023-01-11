@@ -8,7 +8,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.ChecklistFragment
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.ToDoListFragment
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.QRscannerFragment
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.ScheduleFragment
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.StatisticsFragment
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             MainPagerAdapter.FragmentItem(
                 R.string.Checklist,
                 R.drawable.checklist,
-                ChecklistFragment::class
+                ToDoListFragment::class
             )
         )
         mainPagerAdapter.addFragment(
