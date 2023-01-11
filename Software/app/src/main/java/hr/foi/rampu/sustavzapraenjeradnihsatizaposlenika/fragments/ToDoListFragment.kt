@@ -95,7 +95,25 @@ class ToDoListFragment : Fragment() {
             }
         }
 
+        btnReset.setOnClickListener { v ->
+            builder = AlertDialog.Builder(v.context)
+            builder.setMessage("Jeste li sigurni da želite obrisati sve vaše zadatke?")
+                .setCancelable(false)
+                .setPositiveButton("Da") { dialog, id ->
+                    val loggedUser = Database.getInstance().getUsersDAO().getUserByEmail(UserData.data.toString())
 
+                    Database.getInstance().getTasksDAO().deleteTasksOfUser(loggedUser.id)
+                    (dataList as MutableList<Task>?)?.clear()
+                    (dataList as MutableList<Task>?)?.addAll(Database.getInstance().getTasksDAO().getAllTasksOfUser(loggedUser.id))
+                    toDoListFragmentAdapter.notifyDataSetChanged()
+                }
+                .setNegativeButton("Ne") { dialog, id ->
+                    dialog.cancel()
+                }
+            val alert = builder.create()
+            alert.setTitle("Potvrda brisanja")
+            alert.show()
+        }
 
         return view
     }

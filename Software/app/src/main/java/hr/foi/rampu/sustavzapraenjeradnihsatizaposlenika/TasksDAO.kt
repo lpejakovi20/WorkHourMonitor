@@ -23,6 +23,6 @@ interface TasksDAO {
     @Delete
     fun removeTask(vararg task: Task)
 
-    @Delete
-    fun reset(mainData: List<Task>)
+    @Query("DELETE FROM tasks WHERE user_id = :user")
+    fun deleteTasksOfUser(user: Int)
 }
