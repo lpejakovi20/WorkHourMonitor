@@ -84,7 +84,7 @@ class Registration : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*
+
         auth.createUserWithEmailAndPassword(email_content,password_content)
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
@@ -105,7 +105,7 @@ class Registration : AppCompatActivity() {
                     Toast.makeText(baseContext,"Pogreška kod registracije",Toast.LENGTH_LONG).show()
                 }
             }
-         */
+
 
     }
 }

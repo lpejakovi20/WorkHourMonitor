@@ -67,13 +67,13 @@ class Login : AppCompatActivity() {
             editTextPassword.requestFocus()
             return
         }
-
+        /*
         Database.buildInstance(baseContext);
         var mockDataLoader = MockDataLoader()
         mockDataLoader.loadMockData()
         var existingUser = Database.getInstance().getUsersDAO().getUserByEmail(email);
         if(existingUser != null){
-            UserData.data = email;
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -81,17 +81,19 @@ class Login : AppCompatActivity() {
             Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
                 Toast.LENGTH_LONG).show()
         }
-        /*
+        */
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val intent = Intent(this, MainActivity::class.java)
+                    UserData.data = email;
                     startActivity(intent)
                 } else {
                     Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
                         Toast.LENGTH_LONG).show()
                 }
             }
-         */
+
     }
 }
