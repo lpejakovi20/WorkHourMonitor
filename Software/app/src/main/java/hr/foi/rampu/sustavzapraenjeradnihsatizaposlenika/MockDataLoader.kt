@@ -4,6 +4,8 @@ class MockDataLoader {
     fun loadMockData() {
         val tasksDao = Database.getInstance().getTasksDAO()
         val usersDao = Database.getInstance().getUsersDAO()
+        val statsDao = Database.getInstance().getStatsDAO()
+
         if (tasksDao.getAllTasks().isEmpty() &&
             usersDao.getAllUsers().isEmpty()
         ) {
@@ -21,6 +23,13 @@ class MockDataLoader {
                 Task(0, "Work on 1st homework", dbUsers[1].id, false)
             )
             tasksDao.insertTask(*tasks)
+
+            if(statsDao.getAllStats().isEmpty()){
+                val stats = arrayOf(Stats(0, "2023-01-10 09:20:00","2023-01-10 14:20:00",5,1,0,1),
+                    Stats(0, "2023-01-12 09:20:00","2023-01-12 14:20:00",5,2,0,1)
+                )
+                statsDao.insertStats(*stats)
+            }
         }
     }
 }

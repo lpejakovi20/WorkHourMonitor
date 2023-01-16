@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@androidx.room.Database(version = 1, entities = [Task::class, User::class], exportSchema = false)
+@androidx.room.Database(version = 1, entities = [Task::class, User::class, Stats::class], exportSchema = false)
 abstract class Database : RoomDatabase() {
     abstract fun getTasksDAO(): TasksDAO
     abstract fun getUsersDAO(): UsersDAO
+    abstract fun getStatsDAO(): StatsDAO
 
     companion object {
         @Volatile
@@ -23,7 +24,7 @@ abstract class Database : RoomDatabase() {
                 val instanceBuilder = Room.databaseBuilder(
                     context,
                     Database::class.java,
-                    "baza.db"
+                    "rampu1.db"
                 )
                 instanceBuilder.fallbackToDestructiveMigration()
                 instanceBuilder.allowMainThreadQueries()
