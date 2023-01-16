@@ -47,12 +47,12 @@ class QRscannerFragment : Fragment() {
 
             autoFocusMode = AutoFocusMode.SAFE
             scanMode = ScanMode.CONTINUOUS
-            isAutoFocusEnabled = true
+            isAutoFocusEnabled = false
             isFlashEnabled = false
 
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
-                    Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
                 }
             }
         }
