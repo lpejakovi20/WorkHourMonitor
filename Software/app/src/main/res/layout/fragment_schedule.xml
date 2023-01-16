@@ -1,10 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.ScheduleFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPon"
+            android:layout_width="57dp"
+            android:layout_height="match_parent"
+            android:text="PON"
+            android:textSize="10dp"
+
+            />
+
+        <Button
+            android:id="@+id/btnUto"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+
+            android:text="UTO"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/btnSri"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+
+            android:text="SRI"
+            android:textSize="10dp"
+
+            />
+
+        <Button
+            android:id="@+id/btnCet"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+
+            android:text="ČET"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/btnPet"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+
+            android:text="PET"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/btnSub"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:text="SUB"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/btnNed"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+
+            android:text="NED"
+            android:textSize="10dp" />
 
 
-</FrameLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_list_activities"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/redak_aktivnosti"/>
+
+
+</LinearLayout>
