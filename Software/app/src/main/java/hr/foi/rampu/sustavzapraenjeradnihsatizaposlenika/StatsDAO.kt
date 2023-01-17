@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface StatsDAO {
@@ -27,4 +28,8 @@ interface StatsDAO {
     fun getTotalHoursAndOvertimeByMonthAndYear(userId: Int, month: String, year: String): TotalHoursAndOvertime
 
 
+    @Query("UPDATE stats SET hours_done = :newHoursDone WHERE start_time = :startTime AND user_id = :userId")
+    fun updateHoursDoneWithCondition(startTime: String, newHoursDone: Int, userId: Int)
 }
+
+

@@ -1,12 +1,14 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -15,8 +17,11 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.MainActivity
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ActivitiesFragmentAdapter
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Scanner
 
 private const val  CAMERA_REQUEST_CODE = 101
@@ -25,6 +30,7 @@ class QRscannerFragment : Fragment() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var qrview :CodeScannerView
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +41,18 @@ class QRscannerFragment : Fragment() {
         qrview = view.findViewById<CodeScannerView>(R.id.scanner_view)
         setupPermissions(view,activity)
         codeScanner(view,activity)
+
+
         return view
     }
-    private fun codeScanner(view:View,activity: FragmentActivity){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun codeScanner(view:View, activity: FragmentActivity){
 
         codeScanner = CodeScanner(view.context,qrview)
 
         codeScanner.apply{
             camera = CodeScanner.CAMERA_BACK
-            formats = CodeScanner.ALL_FORMATS
+        formats = CodeScanner.ALL_FORMATS
 
             autoFocusMode = AutoFocusMode.SAFE
             scanMode = ScanMode.CONTINUOUS
@@ -52,7 +61,19 @@ class QRscannerFragment : Fragment() {
 
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
-                    Toast.makeText(activity, "Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
+                    if(it.text =="Prijavljeni" && !QRScanData.already_scanned) {
+                        //unosuBazuPrijava(view)
+                        Toast.makeText(activity, "Dobar dan! Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
+                        QRScanData.already_scanned = true
+                    }
+                    else if(it.text =="Prijavljeni" && QRScanData.already_scanned){
+                        Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
+                        //unosuBazuOdjava()
+                        QRScanData.already_scanned = false
+                    }
+                    else{
+                        Toast.makeText(activity, "Neuspješna prijava! Krivi QR kod", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
@@ -81,6 +102,50 @@ class QRscannerFragment : Fragment() {
     private fun  makeRequest(activity: FragmentActivity){
         ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.CAMERA),
             CAMERA_REQUEST_CODE)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun unosuBazuPrijava(view:View){
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formatted = current.format(formatter)
+        QRScanData.startTime =formatted.toString()
+        var loggedUser: User? = null
+        loggedUser = Database.getInstance().getUsersDAO()
+            .getUserByEmail(UserData.data.toString())
+
+        val newStat = Stats(0, formatted.toString(), formatted.toString(), 0, 0, 0, loggedUser.id)
+        Database.buildInstance(view.context)
+        /*Database.getInstance().getStatsDAO().insertStats(newStat)*/
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun unosuBazuOdjava(){
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formatted = current.format(formatter)
+        var startTime = QRScanData.startTime.toString()
+        var minutes = PreracunajVrijeme(formatted,startTime)
+        var loggedUser: User? = null
+        loggedUser = Database.getInstance().getUsersDAO()
+            .getUserByEmail(UserData.data.toString())
+        Database.getInstance().getStatsDAO().updateHoursDoneWithCondition(startTime,minutes,loggedUser.id)
+    }
+    private fun PreracunajVrijeme(Endtime:String,startTime:String):Int{
+        var start = startTime.split(" ")[1]
+        var startHour = start.split(":")[0]
+        var startMinutes = start.split(":")[1]
+        var end =  Endtime.split(" ")[1]
+        var endHour = end.split(":")[0]
+        var endMinutes = end.split(":")[1]
+
+        var startduration = startHour.toInt() * 60 + startMinutes.toInt()
+        var endduration = endHour.toInt() * 60 + startMinutes.toInt()
+        var differences = endduration - startduration
+        return differences
+       /* var Finaltimehours =  (differences/60).toInt().toString()
+        var FinalTimeminutes = (differences%60).toInt().toString()
+        var FinalDate = Finaltimehours + FinalTimeminutes*/
     }
 
     override fun onRequestPermissionsResult(
