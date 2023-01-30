@@ -11,5 +11,6 @@
     <string name="upi_ite_e_mail_va_eg_korisni_kog_ra_una_na_koji_e_vam_biti_poslan_link_za_promjenu_lozinke">Upišite e-mail vašeg korisničkog računa na koji će vam biti poslan link za promjenu lozinke</string>
     <string name="e_mail">E-mail</string>
     <string name="zaboravljena_lozinka">Zaboravljena lozinka</string>
+    <string name="Plan">Plan</string>
 
 </resources>

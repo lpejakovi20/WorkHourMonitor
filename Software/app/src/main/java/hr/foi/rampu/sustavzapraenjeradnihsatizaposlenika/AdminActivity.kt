@@ -34,6 +34,13 @@ class AdminActivity : AppCompatActivity() {
                 ReportGenerator::class
             )
         )
+        mainPagerAdapter.addFragment(
+            MainPagerAdapter.FragmentItem(
+                R.string.Plan,
+                R.drawable.schedule,
+                CreateScheduleFragment::class
+            )
+        )
 
 
         viewPager2.adapter = mainPagerAdapter
