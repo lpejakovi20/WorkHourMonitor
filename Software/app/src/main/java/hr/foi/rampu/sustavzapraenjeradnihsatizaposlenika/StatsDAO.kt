@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface StatsDAO {
@@ -14,6 +15,9 @@ interface StatsDAO {
 
     @Insert(onConflict = REPLACE)
     fun insertStats(vararg stats: Stats): List<Long>
+
+    @Insert
+    fun insertStat(vararg stats: Stats)
 
     @Delete
     fun reset(mainData: List<Stats>)
@@ -31,4 +35,11 @@ interface StatsDAO {
     fun getStatsByUser(userId: Int, month: String, year: String): TotalHoursAndOvertime
 
 
+    @Query("UPDATE stats SET hours_done = :newHoursDone,overtime_hours =:overtime,hours_sunday_or_night_shift =:sunday WHERE start_time = :startTime AND user_id = :userId")
+    fun updateHoursDoneWithCondition(startTime: String, newHoursDone: Int,overtime:Int,sunday : Int, userId: Int)
+
+    @Query("INSERT INTO stats VALUES (:id, :start_time, :end_time,:hours_done,:overtime_hours,:hours_sunday_or_night_shift,:userId)")
+    fun insertteststat(id: Int, start_time : String, end_time : String,hours_done : Int,overtime_hours : Int,hours_sunday_or_night_shift : Int,userId: Int)
 }
+
+
