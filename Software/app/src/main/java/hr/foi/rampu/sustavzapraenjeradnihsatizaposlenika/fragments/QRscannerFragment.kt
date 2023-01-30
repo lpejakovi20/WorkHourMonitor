@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -20,9 +21,10 @@ import com.budiyev.android.codescanner.ScanMode
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ActivitiesFragmentAdapter
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Scanner
+import java.util.*
 
 private const val  CAMERA_REQUEST_CODE = 101
 
@@ -30,6 +32,7 @@ class QRscannerFragment : Fragment() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var qrview :CodeScannerView
+    private lateinit var  btntest :Button
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,7 @@ class QRscannerFragment : Fragment() {
         var view =inflater.inflate(R.layout.fragment_q_rscanner, container, false)
         val activity = requireActivity()
         qrview = view.findViewById<CodeScannerView>(R.id.scanner_view)
+        btntest = view.findViewById(R.id.testgumb)
         setupPermissions(view,activity)
         codeScanner(view,activity)
 
@@ -62,13 +66,13 @@ class QRscannerFragment : Fragment() {
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
                     if(it.text =="Prijavljeni" && !QRScanData.already_scanned) {
-                        //unosuBazuPrijava(view)
+                        unosuBazuPrijava(view)
                         Toast.makeText(activity, "Dobar dan! Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
                         QRScanData.already_scanned = true
                     }
                     else if(it.text =="Prijavljeni" && QRScanData.already_scanned){
                         Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
-                        //unosuBazuOdjava()
+                        unosuBazuOdjava()
                         QRScanData.already_scanned = false
                     }
                     else{
@@ -79,6 +83,25 @@ class QRscannerFragment : Fragment() {
         }
         qrview.setOnClickListener {
             codeScanner.startPreview()
+        }
+        btntest.setOnClickListener {
+
+            val currentDateTime = Calendar.getInstance().time
+            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val formattedDateTime = formatter.format(currentDateTime)
+
+            QRScanData.startTime =formattedDateTime.toString()
+            Database.buildInstance(view.context)
+            var mockDataLoader = MockDataLoader()
+            mockDataLoader.loadMockData()
+            var loggedUser: User? = null
+            loggedUser = Database.getInstance().getUsersDAO()
+                .getUserByEmail(UserData.data.toString())
+            Toast.makeText(activity, formattedDateTime.toString(), Toast.LENGTH_LONG).show()
+           val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,5,1,0,1),
+
+            )
+           Database.getInstance().getStatsDAO().insertStats(*stats)
         }
     }
 
@@ -106,26 +129,31 @@ class QRscannerFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun unosuBazuPrijava(view:View){
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val formatted = current.format(formatter)
-        QRScanData.startTime =formatted.toString()
+        val currentDateTime = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formattedDateTime = formatter.format(currentDateTime)
+        QRScanData.startTime =formattedDateTime.toString()
+        Database.buildInstance(view.context)
+        var mockDataLoader = MockDataLoader()
+        mockDataLoader.loadMockData()
         var loggedUser: User? = null
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
-
-        val newStat = Stats(0, formatted.toString(), formatted.toString(), 0, 0, 0, loggedUser.id)
-        Database.buildInstance(view.context)
-        /*Database.getInstance().getStatsDAO().insertStats(newStat)*/
+        Toast.makeText(activity, formattedDateTime.toString(), Toast.LENGTH_LONG).show()
+        val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,5,1,0,1),
+            )
+        Database.getInstance().getStatsDAO().insertStats(*stats)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun unosuBazuOdjava(){
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val formatted = current.format(formatter)
+        val currentDateTime = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formattedDateTime = formatter.format(currentDateTime)
         var startTime = QRScanData.startTime.toString()
-        var minutes = PreracunajVrijeme(formatted,startTime)
+        var minutes = PreracunajVrijeme(formattedDateTime,startTime)
+        var mockDataLoader = MockDataLoader()
+        mockDataLoader.loadMockData()
         var loggedUser: User? = null
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())

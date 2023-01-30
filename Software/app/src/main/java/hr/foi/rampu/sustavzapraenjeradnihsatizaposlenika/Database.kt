@@ -25,7 +25,7 @@ abstract class Database : RoomDatabase() {
                 val instanceBuilder = Room.databaseBuilder(
                     context,
                     Database::class.java,
-                    "baza12.db"
+                    "baza019.db"
                 )
                 instanceBuilder.fallbackToDestructiveMigration()
                 instanceBuilder.allowMainThreadQueries()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +7,8 @@
     tools:context=".fragments.QRscannerFragment">
 
     <com.budiyev.android.codescanner.CodeScannerView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toTopOf="parent"
         android:id="@+id/scanner_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
@@ -24,7 +26,21 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:text="Skenirajte QR kod"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanner_view" />
 
+    <Button
+        android:id="@+id/testgumb"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/under_qr_text"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="gubmg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/under_qr_text" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
