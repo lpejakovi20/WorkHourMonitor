@@ -1,5 +1,6 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -25,6 +26,9 @@ interface StatsDAO {
 
     @Query("SELECT SUM(hours_done) as totalHours, SUM(overtime_hours) as totalOvertime, SUM(hours_sunday_or_night_shift) as totalSundayOrNightShift FROM Stats WHERE user_id = :userId AND strftime('%m', start_time) = :month AND strftime('%Y', start_time) = :year")
     fun getTotalHoursAndOvertimeByMonthAndYear(userId: Int, month: String, year: String): TotalHoursAndOvertime
+
+    @Query("SELECT SUM(hours_done) as totalHours, SUM(overtime_hours) as totalOvertime, SUM(hours_sunday_or_night_shift) as totalSundayOrNightShift FROM Stats WHERE user_id = :userId AND strftime('%m', start_time) = :month AND strftime('%Y', start_time) = :year")
+    fun getStatsByUser(userId: Int, month: String, year: String): TotalHoursAndOvertime
 
 
 }

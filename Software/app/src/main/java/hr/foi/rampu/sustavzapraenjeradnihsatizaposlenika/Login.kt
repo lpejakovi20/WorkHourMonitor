@@ -11,6 +11,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.itextpdf.text.Document
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
+import java.io.FileOutputStream
 
 class Login : AppCompatActivity() {
     lateinit var editTextEmail: EditText
@@ -86,8 +90,14 @@ class Login : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val intent = Intent(this, MainActivity::class.java)
-                    UserData.data = email;
+                    val intent: Intent
+                    UserData.data = email
+                    if(UserData.data == "niki.parag@gmail.com"){
+                         intent = Intent(this,AdminActivity::class.java)
+                    }
+                    else{
+                         intent = Intent(this, MainActivity::class.java)
+                    }
                     startActivity(intent)
                 } else {
                     Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
@@ -96,4 +106,6 @@ class Login : AppCompatActivity() {
             }
 
     }
+
+
 }

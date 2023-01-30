@@ -4,6 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ScanQR">ScanQR</string>
+    <string name="Report">Report</string>
     <string name="Statistics">Stats</string>
     <string name="Schedule">Schedule</string>
     <string name="Checklist">Tasks</string>
