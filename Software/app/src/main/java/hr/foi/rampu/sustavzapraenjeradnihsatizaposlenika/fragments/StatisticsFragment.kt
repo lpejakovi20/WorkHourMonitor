@@ -75,9 +75,17 @@ class StatisticsFragment : Fragment() {
                 var stats = Database.getInstance().getStatsDAO().getTotalHoursAndOvertimeByMonthAndYear(loggedUserId,currentMonthProperFormat,currentYear.toString())
 
 
-                tvHoursDone.text = stats.totalHours.toString() + "h"
-                tvOvertimeHours.text = stats.totalOvertime.toString() + "h"
-                tvHoursSundayOrNightShift.text = stats.totalSundayOrNightShift.toString() + "h"
+                var hours = stats.totalHours / 60
+                var min = stats.totalHours % 60
+                tvHoursDone.text = hours.toString() + "h" + " " + min.toString() + "m"
+
+                hours = stats.totalOvertime / 60
+                min = stats.totalOvertime % 60
+                tvOvertimeHours.text = hours.toString() + "h" + " " + min.toString() + "m"
+
+                hours = stats.totalSundayOrNightShift / 60
+                min = stats.totalSundayOrNightShift % 60
+                tvHoursSundayOrNightShift.text = hours.toString() + "h" + " " + min.toString() + "m"
             }
 
         }

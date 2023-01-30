@@ -32,17 +32,15 @@ class QRscannerFragment : Fragment() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var qrview :CodeScannerView
-    private lateinit var  btntest :Button
+    private var nightshift = 0
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         var view =inflater.inflate(R.layout.fragment_q_rscanner, container, false)
         val activity = requireActivity()
         qrview = view.findViewById<CodeScannerView>(R.id.scanner_view)
-        btntest = view.findViewById(R.id.testgumb)
         setupPermissions(view,activity)
         codeScanner(view,activity)
 
@@ -59,7 +57,7 @@ class QRscannerFragment : Fragment() {
         formats = CodeScanner.ALL_FORMATS
 
             autoFocusMode = AutoFocusMode.SAFE
-            scanMode = ScanMode.CONTINUOUS
+            scanMode = ScanMode.SINGLE
             isAutoFocusEnabled = false
             isFlashEnabled = false
 
@@ -71,8 +69,8 @@ class QRscannerFragment : Fragment() {
                         QRScanData.already_scanned = true
                     }
                     else if(it.text =="Prijavljeni" && QRScanData.already_scanned){
-                        Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
                         unosuBazuOdjava()
+                        Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
                         QRScanData.already_scanned = false
                     }
                     else{
@@ -83,25 +81,6 @@ class QRscannerFragment : Fragment() {
         }
         qrview.setOnClickListener {
             codeScanner.startPreview()
-        }
-        btntest.setOnClickListener {
-
-            val currentDateTime = Calendar.getInstance().time
-            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            val formattedDateTime = formatter.format(currentDateTime)
-
-            QRScanData.startTime =formattedDateTime.toString()
-            Database.buildInstance(view.context)
-            var mockDataLoader = MockDataLoader()
-            mockDataLoader.loadMockData()
-            var loggedUser: User? = null
-            loggedUser = Database.getInstance().getUsersDAO()
-                .getUserByEmail(UserData.data.toString())
-            Toast.makeText(activity, formattedDateTime.toString(), Toast.LENGTH_LONG).show()
-           val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,5,1,0,1),
-
-            )
-           Database.getInstance().getStatsDAO().insertStats(*stats)
         }
     }
 
@@ -140,26 +119,37 @@ class QRscannerFragment : Fragment() {
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
         Toast.makeText(activity, formattedDateTime.toString(), Toast.LENGTH_LONG).show()
-        val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,5,1,0,1),
+        val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,0,0,0,loggedUser.id),
             )
         Database.getInstance().getStatsDAO().insertStats(*stats)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun unosuBazuOdjava(){
+        var calendar: Calendar = Calendar.getInstance()
         val currentDateTime = Calendar.getInstance().time
+        val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
         var startTime = QRScanData.startTime.toString()
         var minutes = PreracunajVrijeme(formattedDateTime,startTime)
+        var overtime = 0
+        var sunday = nightshift
+        if(minutes >480){
+            overtime = minutes - 480
+        }
+        if(dayOfWeek==1){
+            sunday = minutes
+        }
         var mockDataLoader = MockDataLoader()
         mockDataLoader.loadMockData()
         var loggedUser: User? = null
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
-        Database.getInstance().getStatsDAO().updateHoursDoneWithCondition(startTime,minutes,loggedUser.id)
+        Database.getInstance().getStatsDAO().updateHoursDoneWithCondition(startTime,minutes,overtime,sunday,loggedUser.id)
     }
     private fun PreracunajVrijeme(Endtime:String,startTime:String):Int{
+        nightshift = 0
         var start = startTime.split(" ")[1]
         var startHour = start.split(":")[0]
         var startMinutes = start.split(":")[1]
@@ -167,13 +157,16 @@ class QRscannerFragment : Fragment() {
         var endHour = end.split(":")[0]
         var endMinutes = end.split(":")[1]
 
+
+
         var startduration = startHour.toInt() * 60 + startMinutes.toInt()
-        var endduration = endHour.toInt() * 60 + startMinutes.toInt()
+        var endduration = endHour.toInt() * 60 + endMinutes.toInt()
         var differences = endduration - startduration
+        if(startHour.toInt() > 21 || startHour.toInt() < 7 ){
+        nightshift = differences
+        }
         return differences
-       /* var Finaltimehours =  (differences/60).toInt().toString()
-        var FinalTimeminutes = (differences%60).toInt().toString()
-        var FinalDate = Finaltimehours + FinalTimeminutes*/
+
     }
 
     override fun onRequestPermissionsResult(
