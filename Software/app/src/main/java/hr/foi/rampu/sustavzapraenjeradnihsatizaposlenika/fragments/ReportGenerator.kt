@@ -1,5 +1,6 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -86,6 +87,7 @@ class ReportGenerator : Fragment() {
 
     private val pdfName = "Izvještaj_"+SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())+".pdf"
     private val pdfPath = Environment.getExternalStorageDirectory().toString() + "/Download/" + pdfName
+    @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun generatePdf(year:String) {
         val document = Document()
