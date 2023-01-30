@@ -8,7 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Activity
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.MockDataLoader
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,7 +23,9 @@ class CreateScheduleFragment : Fragment() {
 
     private lateinit var pickedDate : EditText
     private lateinit var startTime : EditText
+    private lateinit var activityName : EditText
     private lateinit var endTime : EditText
+    private lateinit var Unesibtn : Button
     private val selectedDateTime: Calendar = Calendar.getInstance()
     private val sdfDate = SimpleDateFormat("yyyy-MM-dd", Locale.US)
     private val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.US)
@@ -27,7 +34,7 @@ class CreateScheduleFragment : Fragment() {
 
     }
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +87,20 @@ class CreateScheduleFragment : Fragment() {
                 view.clearFocus()
             }
         }
+        activityName = view.findViewById(R.id.Aktivnost)
+        Unesibtn = view.findViewById(R.id.btn_insert)
+        Unesibtn.setOnClickListener {
+            Database.buildInstance(view.context)
+            val mockDataLoader = MockDataLoader()
+            mockDataLoader.loadMockData()
+            var Users = Database.getInstance().getUsersDAO().getAllUsers()
+            for(user in Users){
+                val newActivity = arrayOf(Activity(0,activityName.text.toString(), pickedDate.text.toString() + " " + startTime.text.toString(),pickedDate.text.toString() + " " + endTime.text.toString(),user.id))
+                Database.getInstance().getActivitiesDAO().insertActivity(*newActivity)
+            }
+            Toast.makeText(activity, "Unešena nova aktivnost!", Toast.LENGTH_LONG).show()
 
+        }
         return view
     }
 
