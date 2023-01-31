@@ -10,10 +10,11 @@ class MockDataLoader {
         if (tasksDao.getAllTasks().isEmpty() &&
             usersDao.getAllUsers().isEmpty()
         ) {
-            val users = arrayOf(
 
-                User(0, "matej", "ritosa", "mritosa20@student.foi.hr", "123456"),
-                User(0, "Nikola", "Parag", "niki.parag@gmail.com", "123456")
+            val users = arrayOf(
+                User(0, "Lovro", "Pejaković", "lpejakovi20@student.foi.hr", "123456",2),
+                User(0, "Nikola", "Parag", "nparag20@student.foi.hr", "123456",2),
+                User(0, "Projekt", "Rampu", "projektrampu@gmail.com", "123456",1)
             )
             usersDao.insertUser(*users)
             val dbUsers = usersDao.getAllUsers()

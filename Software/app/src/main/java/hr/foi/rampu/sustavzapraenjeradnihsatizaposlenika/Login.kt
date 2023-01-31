@@ -11,10 +11,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.itextpdf.text.Document
-import com.itextpdf.text.Paragraph
-import com.itextpdf.text.pdf.PdfWriter
-import java.io.FileOutputStream
 
 class Login : AppCompatActivity() {
     lateinit var editTextEmail: EditText
@@ -71,22 +67,30 @@ class Login : AppCompatActivity() {
             editTextPassword.requestFocus()
             return
         }
-        /*
+
         Database.buildInstance(baseContext);
         var mockDataLoader = MockDataLoader()
         mockDataLoader.loadMockData()
         var existingUser = Database.getInstance().getUsersDAO().getUserByEmail(email);
         if(existingUser != null){
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent: Intent
+            UserData.data = email
+            if(existingUser.role == 1){
+                intent = Intent(this,AdminActivity::class.java)
+            }
+            else{
+                intent = Intent(this, MainActivity::class.java)
+            }
             startActivity(intent)
         }
         else {
             Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
                 Toast.LENGTH_LONG).show()
         }
-        */
 
+
+        /*
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -105,6 +109,8 @@ class Login : AppCompatActivity() {
                 }
             }
 
+
+         */
     }
 
 

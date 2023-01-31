@@ -73,12 +73,13 @@ class Registration : AppCompatActivity() {
         }
 
         Database.buildInstance(baseContext)
+
         if(Database.getInstance().getUsersDAO().getUserByEmail(email_content)!=null){
             Toast.makeText(baseContext,"Korisnik s unesenim email-om već postoji!",Toast.LENGTH_LONG).show()
         }
         else {
             UserData.data = email_content;
-            var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.User(0 ,name_content,surname_content,email_content,password_content)
+            var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.User(0 ,name_content,surname_content,email_content,password_content,2)
             Database.getInstance().getUsersDAO().insertUser(newUser)
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
@@ -88,7 +89,7 @@ class Registration : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email_content,password_content)
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
-                    val user = User(name_content,surname_content,email_content,password_content)
+                    val user = User(name_content,surname_content,email_content,password_content,2)
 
                     FirebaseDatabase.getInstance().getReference("Users")
                         .child(Firebase.auth.currentUser!!.uid).setValue(user)
