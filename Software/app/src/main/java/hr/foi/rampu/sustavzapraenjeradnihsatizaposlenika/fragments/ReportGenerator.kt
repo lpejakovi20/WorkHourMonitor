@@ -15,7 +15,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.itextpdf.text.Document
@@ -32,13 +31,14 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 import java.util.jar.Manifest
-
+private const val  EXTERNAL_STORAGE_REQUEST_CODE = 1001
 
 class ReportGenerator : Fragment() {
 
+
     private lateinit var btnGenerate : Button
     private lateinit var spinner : Spinner
-
+   private lateinit  var currentYear :String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,11 +63,12 @@ class ReportGenerator : Fragment() {
 
         val current = LocalDateTime.now()
         var currentMonth = current.monthValue + 4  //+4 stavljen samo radi testiranja
-        var currentYear = current.year
+         currentYear = current.year.toString()
 
         btnGenerate.setOnClickListener {
+            val activity = requireActivity()
+            setupPermissions(view,activity)
 
-            generatePdf(currentYear.toString())
         }
 
         myList = myList.take(currentMonth) as MutableList<String>
@@ -82,6 +83,24 @@ class ReportGenerator : Fragment() {
 
 
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupPermissions(view: View, activity: FragmentActivity){
+        val permission = ContextCompat.checkSelfPermission(view.context,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if(permission == PackageManager.PERMISSION_GRANTED){
+            generatePdf(currentYear)
+
+        }
+        else{
+            makeRequest(activity)
+        }
+    }
+
+    private fun  makeRequest(activity: FragmentActivity){
+        ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            EXTERNAL_STORAGE_REQUEST_CODE)
     }
 
 
@@ -142,9 +161,6 @@ class ReportGenerator : Fragment() {
 
             }
 
-
-
-
             document.add(table)
             document.close()
             Toast.makeText(activity, "PDF created successfully", Toast.LENGTH_SHORT).show()
@@ -155,3 +171,4 @@ class ReportGenerator : Fragment() {
 
 
 }
+
