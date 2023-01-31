@@ -1,5 +1,10 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 class MockDataLoader {
     fun loadMockData() {
         val tasksDao = Database.getInstance().getTasksDAO()
@@ -50,7 +55,35 @@ class MockDataLoader {
 
                     )
                 activitiesDAO.insertActivity(*activities)
+            }
         }
+
+        val dbUsers = usersDao.getAllUsers()
+
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Users")
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = User(
+                        email = userSnapshot.child("e_email").getValue(String::class.java) ?: "",
+                        name = userSnapshot.child("e_name").getValue(String::class.java) ?: "",
+                        password = userSnapshot.child("e_password").getValue(String::class.java) ?: "",
+                        role = userSnapshot.child("e_role").getValue(Int::class.java) ?: 0,
+                        surname = userSnapshot.child("e_surname").getValue(String::class.java) ?: ""
+                    )
+                    if(user != null && dbUsers.find {
+                        it.email == user.email
+                        } == null ){
+                        val newUser = arrayOf(User(0,user.name,user.surname,user.email,user.password,user.role))
+                        Database.getInstance().getUsersDAO().insertUser(*newUser)
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
-}
 }

@@ -26,6 +26,10 @@ class Login : AppCompatActivity() {
         editTextEmail = findViewById(R.id.et_email_login)
         editTextPassword = findViewById(R.id.et_password)
 
+        Database.buildInstance(baseContext);
+        var mockDataLoader = MockDataLoader()
+        mockDataLoader.loadMockData()
+
         val gumb = findViewById<Button>(R.id.btn_registration)
         gumb.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
@@ -68,9 +72,7 @@ class Login : AppCompatActivity() {
             return
         }
 
-        Database.buildInstance(baseContext);
-        var mockDataLoader = MockDataLoader()
-        mockDataLoader.loadMockData()
+
         var existingUser = Database.getInstance().getUsersDAO().getUserByEmail(email);
         if(existingUser != null){
 

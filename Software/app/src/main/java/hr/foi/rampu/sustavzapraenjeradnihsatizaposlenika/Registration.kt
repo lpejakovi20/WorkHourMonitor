@@ -81,8 +81,8 @@ class Registration : AppCompatActivity() {
             UserData.data = email_content;
             var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.User(0 ,name_content,surname_content,email_content,password_content,2)
             Database.getInstance().getUsersDAO().insertUser(newUser)
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, Login::class.java)
+            //startActivity(intent)
         }
 
 
