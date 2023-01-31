@@ -41,6 +41,13 @@ class AdminActivity : AppCompatActivity() {
                 CreateScheduleFragment::class
             )
         )
+        mainPagerAdapter.addFragment(
+            MainPagerAdapter.FragmentItem(
+                R.string.QRGen,
+                R.drawable.qr_code,
+                QRGeneratorFragment::class
+            )
+        )
 
 
         viewPager2.adapter = mainPagerAdapter
