@@ -1,18 +1,15 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.activities
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 
 class PasswordReset : AppCompatActivity() {
 
@@ -32,9 +29,7 @@ class PasswordReset : AppCompatActivity() {
 
         resetPasswordButton.setOnClickListener{
             validationInput()
-
         }
-
     }
 
     fun validationInput(){
@@ -49,7 +44,6 @@ class PasswordReset : AppCompatActivity() {
             email.error = "E-mail nije upisan u točnom formatu!"
             return
         }
-
         auth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener{ task->
             if(task.isComplete){
                 Toast.makeText(baseContext,"Provijerite spam folder na vašem mailu.",Toast.LENGTH_LONG).show()
@@ -58,6 +52,5 @@ class PasswordReset : AppCompatActivity() {
                 Toast.makeText(baseContext,"Došlo je do pogreške, pokušajte ponovo.",Toast.LENGTH_LONG).show()
             }
         }
-
     }
 }

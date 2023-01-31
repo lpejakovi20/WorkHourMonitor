@@ -1,9 +1,10 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.DAO
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.JobStatus
 
 @Dao
 interface JobStatusDAO {

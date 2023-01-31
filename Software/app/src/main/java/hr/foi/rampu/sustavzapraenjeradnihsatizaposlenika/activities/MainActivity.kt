@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.ToDoListFragment
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.QRscannerFragment
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navDrawerLayout: DrawerLayout
     lateinit var navView: NavigationView
 
+    override fun onBackPressed() {
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,6 +69,5 @@ class MainActivity : AppCompatActivity() {
             tab.setText(mainPagerAdapter.fragmentItems[position].titleRes)
             tab.setIcon(mainPagerAdapter.fragmentItems[position].iconRes)
         }.attach()
-
     }
 }

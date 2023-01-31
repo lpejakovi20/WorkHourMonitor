@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 
 class Login : AppCompatActivity() {
     lateinit var editTextEmail: EditText
@@ -72,14 +75,13 @@ class Login : AppCompatActivity() {
             return
         }
 
-
         var existingUser = Database.getInstance().getUsersDAO().getUserByEmail(email);
         if(existingUser != null){
 
             val intent: Intent
             UserData.data = email
             if(existingUser.role == 1){
-                intent = Intent(this,AdminActivity::class.java)
+                intent = Intent(this, AdminActivity::class.java)
             }
             else{
                 intent = Intent(this, MainActivity::class.java)
@@ -90,30 +92,5 @@ class Login : AppCompatActivity() {
             Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
                 Toast.LENGTH_LONG).show()
         }
-
-
-        /*
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val intent: Intent
-                    UserData.data = email
-                    if(UserData.data == "niki.parag@gmail.com"){
-                         intent = Intent(this,AdminActivity::class.java)
-                    }
-                    else{
-                         intent = Intent(this, MainActivity::class.java)
-                    }
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(baseContext, "Neuspješna prijava! Provjerite ispravnost vaših podataka",
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-
-
-         */
     }
-
-
 }

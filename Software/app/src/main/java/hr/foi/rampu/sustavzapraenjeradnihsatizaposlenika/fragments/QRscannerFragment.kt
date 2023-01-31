@@ -3,12 +3,10 @@ package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -24,11 +22,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ActivitiesFragmentAdapter
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.JobStatus
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Stats
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.User
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val  CAMERA_REQUEST_CODE = 101
@@ -50,10 +49,8 @@ class QRscannerFragment : Fragment() {
         val activity = requireActivity()
         qrview = view.findViewById<CodeScannerView>(R.id.scanner_view)
 
-
         setupPermissions(view,activity)
         codeScanner(view,activity)
-
 
         return view
     }
@@ -82,7 +79,6 @@ class QRscannerFragment : Fragment() {
                 }
             })
 
-
             codeScanner.decodeCallback = DecodeCallback {
                 Database.buildInstance(view.context)
                 var mockDataLoader = MockDataLoader()
@@ -94,7 +90,6 @@ class QRscannerFragment : Fragment() {
                         unosuBazuPrijava(view)
                         Toast.makeText(activity, "Dobar dan! Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
                         Database.getInstance().getUsersDAO().updateUseronJob(true,user.id)
-
                     }
                     else if(it.text ==stringValue && user.onJob){
                         unosuBazuOdjava()
@@ -155,7 +150,8 @@ class QRscannerFragment : Fragment() {
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
         Toast.makeText(activity, formattedDateTime.toString(), Toast.LENGTH_LONG).show()
-        val stats = arrayOf(Stats(0, formattedDateTime,formattedDateTime,0,0,0,loggedUser.id),
+        val stats = arrayOf(
+            Stats(0, formattedDateTime,formattedDateTime,0,0,0,loggedUser.id),
             )
         Database.getInstance().getStatsDAO().insertStats(*stats)
     }
@@ -217,7 +213,6 @@ class QRscannerFragment : Fragment() {
                     Toast.makeText(activity, "Potrebno je dopuštenje za kameru da možete koristiti aplikaciju", Toast.LENGTH_LONG).show()
                 }
                 else{
-                    //successful
                     Toast.makeText(activity, "Uspjeh!", Toast.LENGTH_LONG).show()
                 }
             }

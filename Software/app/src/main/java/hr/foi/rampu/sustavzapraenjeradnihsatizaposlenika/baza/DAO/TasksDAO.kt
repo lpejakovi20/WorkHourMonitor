@@ -1,10 +1,11 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.DAO
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Task
 
 @Dao
 interface TasksDAO {

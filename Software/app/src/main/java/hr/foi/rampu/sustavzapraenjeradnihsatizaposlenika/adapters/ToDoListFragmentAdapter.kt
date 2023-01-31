@@ -13,9 +13,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Task
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Task
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.UserData
 
 class ToDoListFragmentAdapter(private val dataList: MutableList<Task>, private val context: Activity) :

@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments.*
 
@@ -15,6 +16,10 @@ class AdminActivity : AppCompatActivity() {
     lateinit var viewPager2: ViewPager2
     lateinit var navDrawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+
+    override fun onBackPressed() {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,16 +54,11 @@ class AdminActivity : AppCompatActivity() {
             )
         )
 
-
         viewPager2.adapter = mainPagerAdapter
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.setText(mainPagerAdapter.fragmentItems[position].titleRes)
             tab.setIcon(mainPagerAdapter.fragmentItems[position].iconRes)
         }.attach()
-
     }
-
-
-
 }

@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ActivitiesFragmentAdapter
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Activity
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.User
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,7 +46,6 @@ class ScheduleFragment : Fragment() {
     @SuppressLint("MissingInflatedId")
 
     fun calculateDate(pickedDay:Int){
-
         val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
         if(dayOfWeek - 1 > pickedDay){
             val numDays = dayOfWeek-1 - pickedDay;
@@ -51,7 +54,6 @@ class ScheduleFragment : Fragment() {
         else if(dayOfWeek - 1 < pickedDay){
             val numDays = (pickedDay - (dayOfWeek-1) );
             calendar.add(Calendar.DATE, numDays)
-
         }
         else{
               calendar.add(Calendar.DATE, 0)
@@ -78,8 +80,7 @@ class ScheduleFragment : Fragment() {
         txtDate.text = trueDay +"."+trueMonth+"."+calendar.get(Calendar.YEAR).toString()
         var loggedUser: User? = null;
         loggedUser = Database.getInstance().getUsersDAO().getUserByEmail(UserData.data.toString());
-         dataList = Database.getInstance().getActivitiesDAO().getActivitiesByDate(calendar.get(Calendar.YEAR).toString(),trueMonth,trueDay,loggedUser.id)
-
+        dataList = Database.getInstance().getActivitiesDAO().getActivitiesByDate(calendar.get(Calendar.YEAR).toString(),trueMonth,trueDay,loggedUser.id)
 
         linearLayoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = linearLayoutManager
@@ -91,16 +92,14 @@ class ScheduleFragment : Fragment() {
                     it
                 )
             }!!
-
         recyclerView.adapter = activitiesFragmentAdapter
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_schedule, container, false)
 
         recyclerView = view.findViewById(R.id.rv_list_activities)
@@ -123,7 +122,6 @@ class ScheduleFragment : Fragment() {
         if(dayStart - 1 < 7){
             val numDays = (7 - (dayEnd-1) );
             calendarEnd.add(Calendar.DATE, numDays)
-
         }
         else{
             calendarEnd.add(Calendar.DATE, 0)
@@ -195,12 +193,7 @@ class ScheduleFragment : Fragment() {
                 btnNed.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(7,view)
                 previousButton = btnNed
-
-        };
-
-
-        return view;
-
+        }
+        return view
     }
-
 }

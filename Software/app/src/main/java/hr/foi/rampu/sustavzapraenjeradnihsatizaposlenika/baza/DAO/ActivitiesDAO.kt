@@ -1,11 +1,10 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.DAO
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import java.time.Year
-import java.util.Date
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Activity
 
 @Dao
 interface ActivitiesDAO {

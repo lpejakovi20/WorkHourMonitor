@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Activity
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Database
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.MockDataLoader
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Activity
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +31,6 @@ class CreateScheduleFragment : Fragment() {
     private val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.US)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     @SuppressLint("SuspiciousIndentation", "MissingInflatedId")
@@ -99,9 +98,7 @@ class CreateScheduleFragment : Fragment() {
                 Database.getInstance().getActivitiesDAO().insertActivity(*newActivity)
             }
             Toast.makeText(activity, "Unešena nova aktivnost!", Toast.LENGTH_LONG).show()
-
         }
         return view
     }
-
 }

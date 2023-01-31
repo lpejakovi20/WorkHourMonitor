@@ -38,7 +38,6 @@ class QRGeneratorFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -59,7 +58,6 @@ class QRGeneratorFragment : Fragment() {
             setupPermissions(view,activity,QRcode!!)
         }
         return view
-
     }
     fun generateRandomString(length: Int): String {
         val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -110,7 +108,6 @@ class QRGeneratorFragment : Fragment() {
 
         if(permission == PackageManager.PERMISSION_GRANTED){
             addBitmapToPdf(bitmap)
-
         }
         else{
             makeRequest(activity)

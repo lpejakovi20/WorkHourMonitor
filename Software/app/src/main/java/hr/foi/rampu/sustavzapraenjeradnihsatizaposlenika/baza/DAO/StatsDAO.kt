@@ -1,12 +1,11 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.DAO
 
-import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Update
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Stats
 
 @Dao
 interface StatsDAO {

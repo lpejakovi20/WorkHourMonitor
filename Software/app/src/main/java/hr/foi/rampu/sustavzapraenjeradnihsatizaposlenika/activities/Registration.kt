@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.User
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.UserData
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.UserFirebase
 
 class Registration : AppCompatActivity() {
 
@@ -79,17 +82,23 @@ class Registration : AppCompatActivity() {
         }
         else {
             UserData.data = email_content;
-            var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.User(0 ,name_content,surname_content,email_content,password_content,2,false)
+            var newUser = hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.User(
+                0,
+                name_content,
+                surname_content,
+                email_content,
+                password_content,
+                2,
+                false
+            )
             Database.getInstance().getUsersDAO().insertUser(newUser)
-            //val intent = Intent(this, Login::class.java)
-            //startActivity(intent)
         }
 
 
         auth.createUserWithEmailAndPassword(email_content,password_content)
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
-                    val user = User(name_content,surname_content,email_content,password_content,2,false)
+                    val user = UserFirebase(name_content,surname_content,email_content,password_content,2,false)
 
                     FirebaseDatabase.getInstance().getReference("Users")
                         .child(Firebase.auth.currentUser!!.uid).setValue(user)

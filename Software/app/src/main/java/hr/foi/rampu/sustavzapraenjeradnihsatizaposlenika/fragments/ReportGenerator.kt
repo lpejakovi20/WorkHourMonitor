@@ -24,25 +24,23 @@ import com.itextpdf.text.Phrase
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
-import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.R
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
-import java.util.jar.Manifest
+
 private const val  EXTERNAL_STORAGE_REQUEST_CODE = 1001
 
 class ReportGenerator : Fragment() {
 
-
     private lateinit var btnGenerate : Button
     private lateinit var spinner : Spinner
-   private lateinit  var currentYear :String
+    private lateinit  var currentYear :String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -50,12 +48,9 @@ class ReportGenerator : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_report_generator, container, false)
 
         btnGenerate = view.findViewById(R.id.bt_generate_report)
-
-
 
         spinner = view.findViewById<Spinner>(R.id.sp_months)
 
@@ -68,19 +63,14 @@ class ReportGenerator : Fragment() {
         btnGenerate.setOnClickListener {
             val activity = requireActivity()
             setupPermissions(view,activity)
-
         }
 
         myList = myList.take(currentMonth) as MutableList<String>
-
 
         val adapter = ArrayAdapter<String>(view.context,
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,myList)
 
         spinner.adapter = adapter
-
-
-
 
         return view
     }
@@ -91,7 +81,6 @@ class ReportGenerator : Fragment() {
 
         if(permission == PackageManager.PERMISSION_GRANTED){
             generatePdf(currentYear)
-
         }
         else{
             makeRequest(activity)
@@ -118,8 +107,6 @@ class ReportGenerator : Fragment() {
             val current = LocalDateTime.now()
             val currentDate = current.toLocalDate().toString()
 
-
-
             val title = Paragraph("Izvjestaj radnih sati,"+currentDate)
             title.alignment = Paragraph.ALIGN_CENTER
             title.font.size = 24f
@@ -127,19 +114,18 @@ class ReportGenerator : Fragment() {
             title.spacingAfter = 20f
             document.add(title)
 
-
             val activity = requireActivity()
             Database.buildInstance(activity)
-           val Users = Database.getInstance().getUsersDAO().getAllUsers()
+            val Users = Database.getInstance().getUsersDAO().getAllUsers()
             val font = Font(Font.FontFamily.HELVETICA, 12f, Font.BOLD)
             val table = PdfPTable(5)
             table.widthPercentage = 100f
 
-                table.addCell(PdfPCell(Phrase("Ime",font)))
-                table.addCell(PdfPCell(Phrase("Prezime",font)))
-                table.addCell(PdfPCell(Phrase("Odrađeni(h)",font)))
-                table.addCell(PdfPCell(Phrase("Prekovremeni(h)",font)))
-                table.addCell(PdfPCell(Phrase("Noćna/Nedjelja(h)",font)))
+            table.addCell(PdfPCell(Phrase("Ime",font)))
+            table.addCell(PdfPCell(Phrase("Prezime",font)))
+            table.addCell(PdfPCell(Phrase("Odradeni(min)",font)))
+            table.addCell(PdfPCell(Phrase("Prekovremeni(min)",font)))
+            table.addCell(PdfPCell(Phrase("Nocna/Nedjelja(min)",font)))
 
             var currentMonthProperFormat: String
             val position = spinner.selectedItemId
@@ -148,19 +134,20 @@ class ReportGenerator : Fragment() {
             else currentMonthProperFormat = month.toString()
 
             for(user in Users){
-                val name = user.name
-                val surname = user.surname
+                if(user.role == 2){
 
-                val statsOfUser = Database.getInstance().getStatsDAO().getStatsByUser(user.id,currentMonthProperFormat,year)
+                    val name = user.name
+                    val surname = user.surname
 
-                table.addCell(PdfPCell(Phrase(name)))
-                table.addCell(PdfPCell(Phrase(surname)))
-                table.addCell(PdfPCell(Phrase(statsOfUser.totalHours.toString())))
-                table.addCell(PdfPCell(Phrase(statsOfUser.totalOvertime.toString())))
-                table.addCell(PdfPCell(Phrase(statsOfUser.totalSundayOrNightShift.toString())))
+                    val statsOfUser = Database.getInstance().getStatsDAO().getStatsByUser(user.id,currentMonthProperFormat,year)
 
+                    table.addCell(PdfPCell(Phrase(name)))
+                    table.addCell(PdfPCell(Phrase(surname)))
+                    table.addCell(PdfPCell(Phrase(statsOfUser.totalHours.toString())))
+                    table.addCell(PdfPCell(Phrase(statsOfUser.totalOvertime.toString())))
+                    table.addCell(PdfPCell(Phrase(statsOfUser.totalSundayOrNightShift.toString())))
+                }
             }
-
             document.add(table)
             document.close()
             Toast.makeText(activity, "PDF created successfully", Toast.LENGTH_SHORT).show()
@@ -168,7 +155,5 @@ class ReportGenerator : Fragment() {
             Toast.makeText(activity, "Error: $e", Toast.LENGTH_LONG).show()
         }
     }
-
-
 }
 

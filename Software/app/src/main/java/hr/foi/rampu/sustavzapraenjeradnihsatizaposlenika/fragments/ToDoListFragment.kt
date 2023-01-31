@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ToDoListFragmentAdapter
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.Task
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.User
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 
 
 class ToDoListFragment : Fragment() {
@@ -54,7 +58,6 @@ class ToDoListFragment : Fragment() {
 
         linearLayoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = linearLayoutManager
-
 
         toDoListFragmentAdapter =
             activity?.let {
@@ -114,8 +117,6 @@ class ToDoListFragment : Fragment() {
             alert.setTitle("Potvrda brisanja")
             alert.show()
         }
-
         return view
     }
-
 }

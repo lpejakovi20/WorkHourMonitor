@@ -1,6 +1,6 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza
 
-class User(name:String,surname : String,email : String, password : String, role : Int,onJob:Boolean) {
+class UserFirebase(name:String, surname : String, email : String, password : String, role : Int, onJob:Boolean) {
     var e_name : String
     var e_surname : String
     var e_email : String

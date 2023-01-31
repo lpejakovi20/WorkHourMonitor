@@ -1,9 +1,10 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.*
 
 class MockDataLoader {
     fun loadMockData() {
@@ -24,43 +25,44 @@ class MockDataLoader {
             usersDao.insertUser(*users)
             val dbUsers = usersDao.getAllUsers()
             val tasks = arrayOf(
-                Task(0, "Submit seminar paper", dbUsers[0].id, false),
-                Task(0, "Prepare for exercises",dbUsers[0].id, false),
-                Task(0, "Rally a project team", dbUsers[1].id, false),
-                Task(0, "Work on 1st homework", dbUsers[1].id, false)
+                Task(0, "Riješiti projekt iz RAMPU", dbUsers[1].id, false),
+                Task(0, "Proći završnu obranu",dbUsers[1].id, false),
+                Task(0, "Riješiti RPP", dbUsers[1].id, false),
+                Task(0, "Proći završnu obranu", dbUsers[1].id, false)
             )
             tasksDao.insertTask(*tasks)
 
             if(statsDao.getAllStats().isEmpty()){
-                val stats = arrayOf(Stats(0, "2023-01-10 09:20:00","2023-01-10 14:20:00",5,1,0,1),
-                    Stats(0, "2023-01-12 09:20:00","2023-01-12 14:20:00",5,2,0,1)
+                val stats = arrayOf(
+                    Stats(0, "2023-01-10 09:20:00","2023-01-10 14:20:00",5,1,0,2),
+                    Stats(0, "2023-01-12 09:20:00","2023-01-12 14:20:00",5,2,0,2)
                 )
                 statsDao.insertStats(*stats)
             }
             if(activitiesDAO.getAllActivities().isEmpty()){
                 val dbUsers = usersDao.getAllUsers()
                 val activities = arrayOf(
-                    Activity(0,"Sastanak","2023-01-16 07:00:00","2023-01-16 08:00:00",dbUsers[0].id),
-                    Activity(0,"Sastanak","2023-01-17 07:00:00","2023-01-17 08:00:00",dbUsers[0].id),
-                    Activity(0,"Sastanak","2023-01-18 07:00:00","2023-01-18 08:00:00",dbUsers[0].id),
-                    Activity(0,"Sastanak","2023-01-19 07:00:00","2023-01-19 08:00:00",dbUsers[0].id),
-                    Activity(0,"Sastanak","2023-01-20 07:00:00","2023-01-20 08:00:00",dbUsers[0].id),
+                    Activity(0,"Sastanak","2023-01-30 07:00:00","2023-01-30 08:00:00",dbUsers[1].id),
+                    Activity(0,"Sastanak","2023-01-31 07:00:00","2023-01-31 08:00:00",dbUsers[1].id),
+                    Activity(0,"Sastanak","2023-02-01 07:00:00","2023-02-01 08:00:00",dbUsers[1].id),
+                    Activity(0,"Sastanak","2023-02-02 07:00:00","2023-02-02 08:00:00",dbUsers[1].id),
+                    Activity(0,"Sastanak","2023-02-03 07:00:00","2023-02-03 08:00:00",dbUsers[1].id),
 
-                    Activity(0,"Sastanak s klijentom","2023-01-16 10:00:00","2023-01-16 12:00:00",dbUsers[0].id),
-                    Activity(0,"Pregeld odrađenog rada","2023-01-17 10:00:00","2023-01-17 12:00:00",dbUsers[0].id),
-                    Activity(0,"Pregeld odrađenog rada","2023-01-18 10:00:00","2023-01-18 12:00:00",dbUsers[0].id),
-                    Activity(0,"Sastanak s klijentom","2023-01-19 10:00:00","2023-01-19 12:00:00",dbUsers[0].id),
-                    Activity(0,"Pregeld odrađenog rada","2023-01-20 10:00:00","2023-01-20 12:00:00",dbUsers[0].id),
-
-
+                    Activity(0,"Sastanak s klijentom","2023-01-30 10:00:00","2023-01-30 12:00:00",dbUsers[1].id),
+                    Activity(0,"Pregeld odrađenog rada","2023-01-31 10:00:00","2023-01-31 12:00:00",dbUsers[1].id),
+                    Activity(0,"Pregeld odrađenog rada","2023-02-01 10:00:00","2023-02-01 12:00:00",dbUsers[1].id),
+                    Activity(0,"Sastanak s klijentom","2023-02-19 02:00:00","2023-02-02 12:00:00",dbUsers[1].id),
+                    Activity(0,"Pregeld odrađenog rada","2023-02-03 10:00:00","2023-02-03 12:00:00",dbUsers[1].id),
                     )
                 activitiesDAO.insertActivity(*activities)
             }
         }
 
         if(Database.getInstance().getJobStatusesDAO().getAllJobStatuses().isEmpty()){
-            val jobStatuses = arrayOf(JobStatus(0,"2023-01-16 07:00:00",1),
-            JobStatus(0,"2023-01-17 07:00:00",2))
+            val jobStatuses = arrayOf(
+                JobStatus(0,"2023-01-16 07:00:00",1),
+            JobStatus(0,"2023-01-17 07:00:00",2)
+            )
             Database.getInstance().getJobStatusesDAO().insertJobStatus(*jobStatuses)
         }
 
@@ -89,7 +91,6 @@ class MockDataLoader {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-
             }
         })
     }

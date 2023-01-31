@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

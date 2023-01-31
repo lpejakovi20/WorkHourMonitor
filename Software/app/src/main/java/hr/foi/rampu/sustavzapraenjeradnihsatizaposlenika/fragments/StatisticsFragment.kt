@@ -1,9 +1,7 @@
 package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 
-import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +12,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Database
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities.User
+import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.MockDataLoader
 import java.time.LocalDateTime
-import java.util.Calendar
 
 class StatisticsFragment : Fragment() {
 
@@ -38,7 +38,6 @@ class StatisticsFragment : Fragment() {
 
         myList = myList.take(currentMonth) as MutableList<String>
 
-
         val adapter = ArrayAdapter<String>(view.context,
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,myList)
 
@@ -57,12 +56,8 @@ class StatisticsFragment : Fragment() {
 
         var currentMonthProperFormat: String
 
-        //potencijalno dodati da se jednom dohvate svi podaci za statistiku trenutnog korisnika u trenutnoj godini,
-        // a ne da se svaki puta dohvaća
-
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -73,7 +68,6 @@ class StatisticsFragment : Fragment() {
                 var loggedUserId = loggedUser.id
 
                 var stats = Database.getInstance().getStatsDAO().getTotalHoursAndOvertimeByMonthAndYear(loggedUserId,currentMonthProperFormat,currentYear.toString())
-
 
                 var hours = stats.totalHours / 60
                 var min = stats.totalHours % 60
@@ -87,11 +81,7 @@ class StatisticsFragment : Fragment() {
                 min = stats.totalSundayOrNightShift % 60
                 tvHoursSundayOrNightShift.text = hours.toString() + "h" + " " + min.toString() + "m"
             }
-
         }
-
-
         return view
     }
-
 }

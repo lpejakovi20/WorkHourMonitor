@@ -1,4 +1,4 @@
-package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika
+package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.baza.Entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -25,16 +25,11 @@ data class Task (
         return text;
     }
 
-    //generate getter abd setter
     fun getID(): Int {
         return id
     }
 
     fun getText(): String? {
         return text
-    }
-
-    fun setText(text: String?) {
-        this.text = text!!
     }
 }
