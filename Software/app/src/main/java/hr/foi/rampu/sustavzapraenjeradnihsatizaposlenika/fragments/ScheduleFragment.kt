@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +27,9 @@ class ScheduleFragment : Fragment() {
     lateinit var btnSub: Button
     lateinit var btnNed: Button
     lateinit var recyclerView: RecyclerView
+    lateinit var txtDate : TextView
+    lateinit var txtWeek : TextView
+    lateinit var previousButton: Button
 
     var calendar: Calendar = Calendar.getInstance()
     val sdf = SimpleDateFormat("yyyy-MM-dd")
@@ -37,9 +42,6 @@ class ScheduleFragment : Fragment() {
     @SuppressLint("MissingInflatedId")
 
     fun calculateDate(pickedDay:Int){
-
-        val currentDate = sdf.format(calendar.time)
-
 
         val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
         if(dayOfWeek - 1 > pickedDay){
@@ -72,11 +74,12 @@ class ScheduleFragment : Fragment() {
         }
         else trueDay = calendar.get(Calendar.DAY_OF_MONTH).toString()
 
+        txtDate = view.findViewById(R.id.txtDate)
+        txtDate.text = trueDay +"."+trueMonth+"."+calendar.get(Calendar.YEAR).toString()
         var loggedUser: User? = null;
         loggedUser = Database.getInstance().getUsersDAO().getUserByEmail(UserData.data.toString());
-
          dataList = Database.getInstance().getActivitiesDAO().getActivitiesByDate(calendar.get(Calendar.YEAR).toString(),trueMonth,trueDay,loggedUser.id)
-        //dataList = Database.getInstance().getActivitiesDAO().getActivitiesByDate("2023","01","01")
+
 
         linearLayoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = linearLayoutManager
@@ -92,6 +95,7 @@ class ScheduleFragment : Fragment() {
         recyclerView.adapter = activitiesFragmentAdapter
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -100,6 +104,35 @@ class ScheduleFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_schedule, container, false)
 
         recyclerView = view.findViewById(R.id.rv_list_activities)
+
+        txtWeek = view.findViewById(R.id.txtWeek)
+        var calendarStart = Calendar.getInstance()
+        var calendarEnd = Calendar.getInstance()
+
+        val dayStart = calendarStart[Calendar.DAY_OF_WEEK]
+        if(dayStart - 1 > 1){
+            val numDays = dayStart-1 - 1;
+            calendarStart.add(Calendar.DATE, numDays*-1)
+        }
+        else{
+            calendarStart.add(Calendar.DATE, 0)
+        }
+
+        val dayEnd = calendarEnd[Calendar.DAY_OF_WEEK]
+
+        if(dayStart - 1 < 7){
+            val numDays = (7 - (dayEnd-1) );
+            calendarEnd.add(Calendar.DATE, numDays)
+
+        }
+        else{
+            calendarEnd.add(Calendar.DATE, 0)
+        }
+
+        val date = calendarStart.get(Calendar.DAY_OF_MONTH).toString() + ". " + (calendarStart.get(Calendar.MONTH)+1).toString()+" - "+
+                calendarEnd.get(Calendar.DAY_OF_MONTH).toString()+ ". " + (calendarEnd.get(Calendar.MONTH)+1).toString()+". "+calendarStart.get(Calendar.YEAR).toString()
+
+        txtWeek.text = date
 
         btnPon = view.findViewById(R.id.btnPon)
         btnUto = view.findViewById(R.id.btnUto)
@@ -114,31 +147,54 @@ class ScheduleFragment : Fragment() {
         var mockDataLoader = MockDataLoader()
         mockDataLoader.loadMockData()
 
+        val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
+        showActivitiesByDay(dayOfWeek-1,view)
 
+        val originalColor = btnPon.backgroundTintList
 
+        previousButton = btnPon
 
-            btnPon.setOnClickListener {
+        btnPon.setOnClickListener {
+            previousButton.backgroundTintList = originalColor
+            btnPon.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(1,view)
+            previousButton = btnPon
             }
-
-
             btnUto.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnUto.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(2,view)
+                previousButton = btnUto
             }
             btnSri.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnSri.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(3,view)
+                previousButton = btnSri
             }
             btnCet.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnCet.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(4,view)
+                previousButton = btnCet
             }
             btnPet.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnPet.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(5,view)
+                previousButton = btnPet
             }
             btnSub.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnSub.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(6,view)
+                previousButton = btnSub
             }
             btnNed.setOnClickListener {
+                previousButton.backgroundTintList = originalColor
+                btnNed.backgroundTintList = ContextCompat.getColorStateList(view.context, R.color.hyperlink)
                 showActivitiesByDay(7,view)
+                previousButton = btnNed
 
         };
 

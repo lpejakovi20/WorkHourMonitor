@@ -6,73 +6,104 @@
     android:orientation="vertical"
     tools:context=".fragments.ScheduleFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Hello"
+        android:textSize="20dp"
+        android:id="@+id/txtWeek"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        ></TextView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:weightSum="7">
 
         <Button
             android:id="@+id/btnPon"
-            android:layout_width="57dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="PON"
             android:textSize="10dp"
-
+            android:layout_weight="1"
             />
 
         <Button
             android:id="@+id/btnUto"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
             android:text="UTO"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:layout_weight="1"
+            />
 
         <Button
             android:id="@+id/btnSri"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
             android:text="SRI"
             android:textSize="10dp"
-
+            android:layout_weight="1"
             />
 
         <Button
             android:id="@+id/btnCet"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
             android:text="ČET"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btnPet"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
             android:text="PET"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btnSub"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="SUB"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btnNed"
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
             android:text="NED"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Hello"
+        android:textSize="20dp"
+        android:id="@+id/txtDate"
+        android:textAlignment="center"
+
+        >
+
+    </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.StatisticsFragment">
 
+
+
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -20,80 +23,124 @@
         android:textAlignment="center" />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="20dp"
+        android:text="Mjesec:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/months_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.001"></TextView>
 
     <TextView
         android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="80dp"
         android:text="Odrađeni sati:"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/months_spinner"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+
+
         android:textSize="15sp"
-        android:textColor="#000000"/>
+        app:layout_constraintEnd_toStartOf="@+id/label2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/months_spinner" />
 
     <TextView
         android:id="@+id/tv_hours_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="59dp"
-        app:layout_constraintTop_toBottomOf="@id/months_spinner"
-        app:layout_constraintStart_toEndOf="@id/label1"
-        android:textSize="15sp"
-        android:textColor="#000000"/>
+
+
+        android:layout_marginTop="40dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label1"
+        app:layout_constraintVertical_bias="0.027" />
 
     <TextView
         android:id="@+id/label2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="80dp"
         android:text="Prekovremeni:"
-        app:layout_constraintTop_toBottomOf="@id/label1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+
+
         android:textSize="15sp"
-        android:textColor="#000000"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/months_spinner" />
 
     <TextView
         android:id="@+id/tv_overtime_hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="56dp"
-        app:layout_constraintTop_toBottomOf="@id/label1"
-        app:layout_constraintStart_toEndOf="@id/label2"
-        android:textSize="15sp"
-        android:textColor="#000000"/>
+        android:layout_marginTop="40dp"
+
+
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label2"
+        app:layout_constraintVertical_bias="0.027" />
 
     <TextView
         android:id="@+id/label3"
-        android:layout_width="136dp"
-        android:layout_height="52dp"
+        android:layout_width="197dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="304dp"
         android:text="Nedjeljom/noćnom smjenom:"
         android:textColor="#000000"
+
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label2" />
+        app:layout_constraintTop_toBottomOf="@+id/months_spinner"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tv_sunday_or_night_shift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/label2"
-        app:layout_constraintStart_toEndOf="@id/label3"
-        android:textSize="15sp"
-        android:textColor="#000000"/>
+        android:layout_marginTop="36dp"
+        android:text="0"
+        android:textColor="#000000"
+
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/months_spinner"
         android:layout_width="120dp"
-        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.68"
-        android:layout_marginTop="100dp"
-        />
+        app:layout_constraintVertical_bias="0.147" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
