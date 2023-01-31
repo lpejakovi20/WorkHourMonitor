@@ -12,5 +12,6 @@
     <string name="e_mail">E-mail</string>
     <string name="zaboravljena_lozinka">Zaboravljena lozinka</string>
     <string name="Plan">Plan</string>
+    <string name="QRGen">QRGen</string>
 
 </resources>

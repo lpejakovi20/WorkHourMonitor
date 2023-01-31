@@ -18,6 +18,10 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.*
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.ActivitiesFragmentAdapter
 import hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.adapters.MainPagerAdapter
@@ -33,6 +37,7 @@ class QRscannerFragment : Fragment() {
     private lateinit var codeScanner: CodeScanner
     private lateinit var qrview :CodeScannerView
     private var nightshift = 0
+    private lateinit var stringValue : String
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,20 +66,34 @@ class QRscannerFragment : Fragment() {
             isAutoFocusEnabled = false
             isFlashEnabled = false
 
+            val database = FirebaseDatabase.getInstance()
+            val qrstring = FirebaseDatabase.getInstance().getReference("QRcode")
+            qrstring.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    stringValue = dataSnapshot.getValue(String::class.java).toString()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
+
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
-                    if(it.text =="Prijavljeni" && !QRScanData.already_scanned) {
+
+
+                    if(it.text ==stringValue && !QRScanData.already_scanned) {
                         unosuBazuPrijava(view)
                         Toast.makeText(activity, "Dobar dan! Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
                         QRScanData.already_scanned = true
                     }
-                    else if(it.text =="Prijavljeni" && QRScanData.already_scanned){
+                    else if(it.text ==stringValue && QRScanData.already_scanned){
                         unosuBazuOdjava()
                         Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
                         QRScanData.already_scanned = false
                     }
                     else{
-                        Toast.makeText(activity, "Neuspješna prijava! Krivi QR kod", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, it.text+" "+stringValue, Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -156,9 +175,6 @@ class QRscannerFragment : Fragment() {
         var end =  Endtime.split(" ")[1]
         var endHour = end.split(":")[0]
         var endMinutes = end.split(":")[1]
-
-
-
         var startduration = startHour.toInt() * 60 + startMinutes.toInt()
         var endduration = endHour.toInt() * 60 + endMinutes.toInt()
         var differences = endduration - startduration
@@ -181,6 +197,7 @@ class QRscannerFragment : Fragment() {
                 }
                 else{
                     //successful
+                    Toast.makeText(activity, "Uspjeh!", Toast.LENGTH_LONG).show()
                 }
             }
         }
