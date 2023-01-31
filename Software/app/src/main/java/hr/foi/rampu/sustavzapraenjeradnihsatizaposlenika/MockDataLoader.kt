@@ -17,9 +17,9 @@ class MockDataLoader {
         ) {
 
             val users = arrayOf(
-                User(0, "Lovro", "Pejaković", "lpejakovi20@student.foi.hr", "123456",2),
-                User(0, "Nikola", "Parag", "nparag20@student.foi.hr", "123456",2),
-                User(0, "Projekt", "Rampu", "projektrampu@gmail.com", "123456",1)
+                User(0, "Lovro", "Pejaković", "lpejakovi20@student.foi.hr", "123456",2,false),
+                User(0, "Nikola", "Parag", "nparag20@student.foi.hr", "123456",2,false),
+                User(0, "Projekt", "Rampu", "projektrampu@gmail.com", "123456",1,false)
             )
             usersDao.insertUser(*users)
             val dbUsers = usersDao.getAllUsers()
@@ -58,6 +58,12 @@ class MockDataLoader {
             }
         }
 
+        if(Database.getInstance().getJobStatusesDAO().getAllJobStatuses().isEmpty()){
+            val jobStatuses = arrayOf(JobStatus(0,"2023-01-16 07:00:00",1),
+            JobStatus(0,"2023-01-17 07:00:00",2))
+            Database.getInstance().getJobStatusesDAO().insertJobStatus(*jobStatuses)
+        }
+
         val dbUsers = usersDao.getAllUsers()
 
         val database = FirebaseDatabase.getInstance()
@@ -71,12 +77,13 @@ class MockDataLoader {
                         name = userSnapshot.child("e_name").getValue(String::class.java) ?: "",
                         password = userSnapshot.child("e_password").getValue(String::class.java) ?: "",
                         role = userSnapshot.child("e_role").getValue(Int::class.java) ?: 0,
-                        surname = userSnapshot.child("e_surname").getValue(String::class.java) ?: ""
+                        surname = userSnapshot.child("e_surname").getValue(String::class.java) ?: "",
+                        onJob = userSnapshot.child("e_onJob").getValue(Boolean::class.java) ?: false
                     )
                     if(user != null && dbUsers.find {
                         it.email == user.email
                         } == null ){
-                        val newUser = arrayOf(User(0,user.name,user.surname,user.email,user.password,user.role))
+                        val newUser = arrayOf(User(0,user.name,user.surname,user.email,user.password,user.role,user.onJob))
                         Database.getInstance().getUsersDAO().insertUser(*newUser)
                     }
                 }

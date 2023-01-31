@@ -46,7 +46,7 @@ class ScheduleFragment : Fragment() {
         val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
         if(dayOfWeek - 1 > pickedDay){
             val numDays = dayOfWeek-1 - pickedDay;
-            calendar.add(Calendar.DATE, numDays)
+            calendar.add(Calendar.DATE, numDays*-1)
         }
         else if(dayOfWeek - 1 < pickedDay){
             val numDays = (pickedDay - (dayOfWeek-1) );
@@ -199,16 +199,7 @@ class ScheduleFragment : Fragment() {
         };
 
 
-
-
-
-
-
         return view;
-
-
-
-
 
     }
 

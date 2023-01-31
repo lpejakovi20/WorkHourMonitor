@@ -18,4 +18,7 @@ interface UsersDAO {
 
     @Insert(onConflict = REPLACE)
     fun insertUser(vararg user: User): List<Long>
+
+    @Query("UPDATE users SET onJob = :onJob WHERE id = :userId")
+    fun updateUseronJob(onJob:Boolean, userId: Int)
 }

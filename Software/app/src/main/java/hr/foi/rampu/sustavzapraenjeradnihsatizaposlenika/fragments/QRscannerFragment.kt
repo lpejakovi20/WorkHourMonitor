@@ -3,6 +3,7 @@ package hr.foi.rampu.sustavzapraenjeradnihsatizaposlenika.fragments
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,8 @@ class QRscannerFragment : Fragment() {
     private lateinit var qrview :CodeScannerView
     private var nightshift = 0
     private lateinit var stringValue : String
+    private lateinit var user : User
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +49,8 @@ class QRscannerFragment : Fragment() {
         var view =inflater.inflate(R.layout.fragment_q_rscanner, container, false)
         val activity = requireActivity()
         qrview = view.findViewById<CodeScannerView>(R.id.scanner_view)
+
+
         setupPermissions(view,activity)
         codeScanner(view,activity)
 
@@ -79,18 +84,22 @@ class QRscannerFragment : Fragment() {
 
 
             codeScanner.decodeCallback = DecodeCallback {
+                Database.buildInstance(view.context)
+                var mockDataLoader = MockDataLoader()
+                mockDataLoader.loadMockData()
+                user = Database.getInstance().getUsersDAO().getUserByEmail(UserData.data.toString());
+
                 activity.runOnUiThread {
-
-
-                    if(it.text ==stringValue && !QRScanData.already_scanned) {
+                    if(it.text ==stringValue && !user.onJob) {
                         unosuBazuPrijava(view)
                         Toast.makeText(activity, "Dobar dan! Uspješno ste se prijavili na posao!", Toast.LENGTH_LONG).show()
-                        QRScanData.already_scanned = true
+                        Database.getInstance().getUsersDAO().updateUseronJob(true,user.id)
+
                     }
-                    else if(it.text ==stringValue && QRScanData.already_scanned){
+                    else if(it.text ==stringValue && user.onJob){
                         unosuBazuOdjava()
                         Toast.makeText(activity, "Doviđenja! Uspješno ste se odjavili s posla!", Toast.LENGTH_LONG).show()
-                        QRScanData.already_scanned = false
+                        Database.getInstance().getUsersDAO().updateUseronJob(false,user.id)
                     }
                     else{
                         Toast.makeText(activity, it.text+" "+stringValue, Toast.LENGTH_LONG).show()
@@ -130,10 +139,18 @@ class QRscannerFragment : Fragment() {
         val currentDateTime = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
-        QRScanData.startTime =formattedDateTime.toString()
+
         Database.buildInstance(view.context)
         var mockDataLoader = MockDataLoader()
         mockDataLoader.loadMockData()
+        if(Database.getInstance().getJobStatusesDAO().getJobStatus(user.id) != null){
+            Database.getInstance().getJobStatusesDAO().updateJobStatusOfUser(formattedDateTime.toString(),user.id)
+        }
+        else {
+            val jobStatus = arrayOf(JobStatus(0,formattedDateTime.toString(),user.id))
+            Database.getInstance().getJobStatusesDAO().insertJobStatus(*jobStatus)
+        }
+
         var loggedUser: User? = null
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
@@ -150,7 +167,12 @@ class QRscannerFragment : Fragment() {
         val dayOfWeek = calendar[Calendar.DAY_OF_WEEK]
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
-        var startTime = QRScanData.startTime.toString()
+
+        var mockDataLoader = MockDataLoader()
+        mockDataLoader.loadMockData()
+
+        var startTime = Database.getInstance().getJobStatusesDAO().getJobStatus(user.id).startTime
+
         var minutes = PreracunajVrijeme(formattedDateTime,startTime)
         var overtime = 0
         var sunday = nightshift
@@ -160,8 +182,7 @@ class QRscannerFragment : Fragment() {
         if(dayOfWeek==1){
             sunday = minutes
         }
-        var mockDataLoader = MockDataLoader()
-        mockDataLoader.loadMockData()
+
         var loggedUser: User? = null
         loggedUser = Database.getInstance().getUsersDAO()
             .getUserByEmail(UserData.data.toString())
